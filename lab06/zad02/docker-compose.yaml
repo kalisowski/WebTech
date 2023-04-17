@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  lab06zad2-web:
+    container_name: web
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    networks:
+      - my_network
+    ports:
+      - 80:80
+  lab06zad2-db:
+    container_name: db
+    build:
+      context: ./pssql
+      dockerfile: ./Dockerfile
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    networks:
+      - my_network
+    ports:
+      - 5432:5432
+
+networks:
+  my_network:
+    driver: bridge
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+         - subnet: 192.168.0.0/24     
+      
